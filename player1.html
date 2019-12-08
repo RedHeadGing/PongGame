@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Player 1</title>
+
+</head>
+<body>
+
+    
+
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+
+var WIDTH=700; 
+var HEIGHT=600; 
+var pi=Math.PI;
+
+var UpArrow = 38; var DownArrow = 40;
+var canvas, ctx, keystate;
+var player, ball;
+
+
+player = {
+    x: 0,
+    y: 0,
+
+    width: 20,
+    height: 100,
+
+    update: function(){
+        if(keystate[UpArrow]) this.y -= 7;
+        if(keystate[DownArrow]) this.y += 7;
+
+    },
+
+    draw: function(){
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+
+    
+
+};
+
+function main(){
+
+    canvas = document.createElement("canvas");
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
+    ctx = canvas.getContext("2d");
+    document.body.appendChild(canvas);
+
+    keystate = {};
+    document.addEventListener("keydown", function(evt) {
+        keystate[evt.keyCode] = true;
+    });
+    document.addEventListener("keyup", function(evt) {
+        delete keystate[evt.keyCode];
+    });
+
+    init();
+    draw();
+
+    var loop = function(){
+        update();
+        draw();
+
+        window.requestAnimationFrame(loop, canvas);
+    }
+
+    window.requestAnimationFrame(loop, canvas);
+
+}
+
+function update(){
+    player.update();
+
+}
+
+function init()
+{
+    player.x = player.width;
+    player.y = (HEIGHT - player.height)/2;
+
+    ctx.restore();
+}
+
+function draw(){
+    player.draw();
+}
+
+main();
+    //axios.defaults.baseURL = '/gamerServer.js';
+
+/*axios.get('/newPar')
+    .then(response => {
+        document.getElementById("H").innerText = response.data;
+        console.log('It has reached the js file');
+    })
+    .catch(error => {
+        console.log('Error');
+    })
+    */
+</script>
+
+</body>
+</html>
